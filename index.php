@@ -31,7 +31,7 @@ if ($text == "") {
 
 } else if($text == "1*2") {
     // This is a second level response where the user selected 1 in the first instance
-    
+    $response = "CON vous devez vous enregistrer pour faire demande de vérification. (vous serez debité de 100 F CFA par demande) \n";
 
     // This is a terminal request. Note how we start the response with END
     $response = "END 1. S'enregistrer".$accountNumber;
