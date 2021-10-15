@@ -31,10 +31,10 @@ if ($text == "") {
 
 } else if($text == "1*2") {
     // This is a second level response where the user selected 1 in the first instance
-$accountNumber  = "Cette option vous coûtera 100 F CFA/Verification";
+$accountNumber  = "1. S'enregistrer";
 
     // This is a terminal request. Note how we start the response with END
-    $response = "END 1. S'enregistrer".$accountNumber;
+    $response = "END enregistrement effectué".$accountNumber;
 
 }
 
