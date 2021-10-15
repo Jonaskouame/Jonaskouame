@@ -24,7 +24,7 @@ if ($text == "") {
 
 } else if($text == "1*1") { 
     // This is a second level response where the user selected 1 in the first instance
-    $accountNumber  = "Cette information est un Fake-news";
+    $accountNumber  = "Cette information est un Fake-news, Ne pas ouvrir le formulaire, Ne pas relayer, Ne pas effectuer les instructions incluses";
 
     // This is a terminal request. Note how we start the response with END
     $response = "END Fbk name: XXXX, Date:10/01/21, Heure: 12h45 ".$accountNumber;
