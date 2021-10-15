@@ -27,7 +27,7 @@ if ($text == "") {
     $accountNumber  = "Cette information est un Fake-news";
 
     // This is a terminal request. Note how we start the response with END
-    $response = "END Your account number is ".$accountNumber;
+    $response = "END Fbk name: XXXX, Date:10/01/21, Heure: 12h45 ".$accountNumber;
 
 }
 
