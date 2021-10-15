@@ -15,7 +15,7 @@ if ($text == "") {
     // Business logic for first level response
     $response = "CON Effectuer une opération \n";
     $response .= "1. Consulter une Alerte Fake-news \n";
-    $response .= "2. Demander une vérification d'information \n";
+    $response .= "2. Demander une vérification d'info \n";
 
 } else if ($text == "2") {
     // Business logic for first level response
@@ -24,7 +24,7 @@ if ($text == "") {
 
 } else if($text == "1*1") { 
     // This is a second level response where the user selected 1 in the first instance
-    $accountNumber  = "Cette information est un Fake-news, Ne pas ouvrir le formulaire, Ne pas relayer, Ne pas effectuer les instructions incluses";
+    $accountNumber  = "Cette information est un Fake-news, Ne pas ouvrir le formulaire, Ne pas relayer, Ne pas effectuer les instructions incluses.";
 
     // This is a terminal request. Note how we start the response with END
     $response = "END Fbk name: XXXX, Date:10/01/21, Heure: 12h45 ".$accountNumber;
