@@ -1,103 +1,42 @@
 <?php
-/* Simple sample USSD registration application
- * USSD gateway that is being used is Africa's Talking USSD gateway
- */
+// Read the variables sent via POST from our API
+$sessionId   = $_POST["sessionId"];
+$serviceCode = $_POST["serviceCode"];
+$phoneNumber = $_POST["phoneNumber"];
+$text        = $_POST["text"];
 
-// Print the response as plain text so that the gateway can read it
-header('Content-type: text/plain');
+if ($text == "") {
+    // This is the first request. Note how we start the response with CON
+    $response  = "CON Choisir une option Réseaux Sociaux \n";
+    $response .= "1. FACEBOOK \n";
+    $response .= "2. WHATSAPP";
 
-/* local db configuration */
-$dsn = 'mysql:dbname=dbname;host=127.0.0.1;'; //database name
-$user = 'your user'; // your mysql user 
-$password = 'your password'; // your mysql password
+} else if ($text == "1") {
+    // Business logic for first level response
+    $response = "CON Effectuer une opération \n";
+    $response .= "1. Consulter une Alerte Fake-news \n";
+    $response .= "2. Demander une vérification d'info \n";
 
-//  Create a PDO instance that will allow you to access your database
-try {
-    $dbh = new PDO($dsn, $user, $password);
-}
-catch(PDOException $e) {
-    //var_dump($e);
-    echo("PDO error occurred");
-}
-catch(Exception $e) {
-    //var_dump($e);
-    echo("Error occurred");
-}
+} else if ($text == "2") {
+    // Business logic for first level response
+    // This is a terminal request. Note how we start the response with END
+    $response = "END Information non disponible".$phoneNumber;
 
-// Get the parameters provided by Africa's Talking USSD gateway
-$phone = $_GET['phoneNumber'];
-$session_id = $_GET['sessionId'];
-$service_code = $_GET['serviceCode'];
-$ussd_string= $_GET['text'];
+} else if($text == "1*1") { 
+    // This is a second level response where the user selected 1 in the first instance
+    $accountNumber  = ",Cette information est un Fake-news, Ne pas ouvrir le formulaire, Ne pas relayer, Ne pas effectuer les instructions incluses.";
 
-//set default level to zero
-$level = 0;
+    // This is a terminal request. Note how we start the response with END
+    $response = "END Fbk name: XXXX, Date:10/01/21, Heure: 12h45 ".$accountNumber;
 
-/* Split text input based on asteriks(*)
- * Africa's talking appends asteriks for after every menu level or input
- * One needs to split the response from Africa's Talking in order to determine
- * the menu level and input for each level
- * */
-$ussd_string_exploded = explode ("*",$ussd_string);
+} else if($text == "1*2") {
+    // This is a second level response where the user selected 1 in the first instance
+    $response = "CON vous devez vous enregistrer pour faire demande de vérification. (vous serez debité de 100 F CFA par demande) \n";
 
-// Get menu level from ussd_string reply
-$level = count($ussd_string_exploded);
+    // This is a terminal request. Note how we start the response with END
+    $response = "END 1. S'enregistrer".$accountNumber;
 
-if($level == 1 or $level == 0){
-    
-    display_menu(); // show the home/first menu
-}
-
-if ($level > 1)
-{
-
-    if ($ussd_string_exploded[0] == "1")
-    {
-        // If user selected 1 send them to the registration menu
-        register($ussd_string_exploded,$phone, $dbh);
-    }
-
-  else if ($ussd_string_exploded[0] == "2"){
-        //If user selected 2, send them to the about menu
-        about($ussd_string_exploded);
-    }
-}
-
-/* The ussd_proceed function appends CON to the USSD response your application gives.
- * This informs Africa's Talking USSD gateway and consecuently Safaricom's
- * USSD gateway that the USSD session is till in session or should still continue
- * Use this when you want the application USSD session to continue
-*/
-function ussd_proceed($ussd_text){
-    echo "CON $ussd_text";
-}
-
-/* This ussd_stop function appends END to the USSD response your application gives.
- * This informs Africa's Talking USSD gateway and consecuently Safaricom's
- * USSD gateway that the USSD session should end.
- * Use this when you to want the application session to terminate/end the application
-*/
-function ussd_stop($ussd_text){
-    echo "END $ussd_text";
-}
-
-//This is the home menu function
-function display_menu()
-{
-    $ussd_text =    "1. Register \n 2. About \n"; // add \n so that the menu has new lines
-    ussd_proceed($ussd_text);
-}
-
-
-// Function that hanldles About menu
-function about($ussd_text)
-{
-    $ussd_text =    "This is a sample registration application";
-    ussd_stop($ussd_text);
-}
-
-// Function that handles Registration menu
-function register($details,$phone, $dbh){
+} function register($details,$phone, $dbh){
     if(count($details) == 2)
     {
         
@@ -115,19 +54,6 @@ function register($details,$phone, $dbh){
         $email = $input[1];//store email
         $phone_number =$phone;//store phone number 
 
-        // build sql statement
-        $sth = $dbh->prepare("INSERT INTO customer (full_name, email, phone) VALUES('$full_name','$email','$phone_number')");
-        //execute insert query   
-        $sth->execute();
-        if($sth->errorCode() == 0) {
-            $ussd_text = $full_name." your registration was successful. Your email is ".$email." and phone number is ".$phone_number;
-            ussd_proceed($ussd_text);
-        } else {
-            $errors = $sth->errorInfo();
-        }
-    }
-}
-}
-# close the pdo connection  
-$dbh = null;
-?>
+// Echo the response back to the API
+header('Content-type: text/plain');
+echo $response;
