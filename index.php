@@ -36,14 +36,8 @@ if ($text == "") {
     // This is a terminal request. Note how we start the response with END
     $response = "END 1. S'enregistrer".$accountNumber;
 
-} else if ($text == "1*2) {
-    // ask user to enter registration details
-    $response = $input = explode(",",$details[1]);//store input values in an array
-            $full_name = $input[0];//store full name
-        $email = $input[1];//store email
-        $phone_number =$phone;//store phone number
-   
-        
+} 
+         
 
 // Echo the response back to the API
 header('Content-type: text/plain');
