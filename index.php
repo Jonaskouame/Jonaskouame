@@ -36,22 +36,17 @@ if ($text == "") {
     // This is a terminal request. Note how we start the response with END
     $response = "END 1. S'enregistrer".$accountNumber;
 
-} 
-         
-elseif ($text == "1*2") {
+} elseif ($text == "1*2") {
             // when use response with option Laravel
             $response = "CON Please enter your first name. ";
-        }
-        elseif ($ussd_string_exploded[0] == 1 && $ussd_string_exploded[1] == 2 && $level == 3) {
+} elseif ($ussd_string_exploded[0] == 1 && $ussd_string_exploded[1] == 2 && $level == 3) {
             $response = "CON Please enter your last name";
-        }
-        elseif ($ussd_string_exploded[0] == 1 && $ussd_string_exploded[1] == 2 && $level == 4) {
+} elseif ($ussd_string_exploded[0] == 1 && $ussd_string_exploded[1] == 2 && $level == 4) {
             $response = "CON Please enter your email";
-        }
-        elseif ($ussd_string_exploded[0] == 1 && $ussd_string_exploded[1] == 2 && $level == 5) {
+} elseif ($ussd_string_exploded[0] == 1 && $ussd_string_exploded[1] == 2 && $level == 5) {
             // save data in the database
             $response = "END Your data has been captured successfully! Thank you for registering for Laravel online classes at HLAB.";
-        }
+}
 
 // Echo the response back to the API
 header('Content-type: text/plain');
