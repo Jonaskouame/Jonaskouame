@@ -42,11 +42,8 @@ if ($text == "") {
             $full_name = $input[0];//store full name
         $email = $input[1];//store email
         $phone_number =$phone;//store phone number
-    {
-        
-        $ussd_text = "Please enter your Full Name and Email, each seperated by commas:";
-        ussd_proceed($ussd_text); // ask user to enter registration details
    
+        
 
 // Echo the response back to the API
 header('Content-type: text/plain');
